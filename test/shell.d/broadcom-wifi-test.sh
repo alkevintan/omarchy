@@ -52,9 +52,9 @@ installs_driver_for 14e4:43a0 || fail "BCM4360 still gets broadcom-wl-dkms"
 installs_driver_for 14e4:4331 || fail "BCM4331 still gets broadcom-wl-dkms"
 pass "BCM4360 and BCM4331 keep their driver"
 
-# A Broadcom wireless card the wl driver does not claim must not drag it in.
-! installs_driver_for 14e4:4353 ||
-  fail "an unsupported Broadcom id does not install broadcom-wl-dkms"
+# A Broadcom card brcmfmac drives (BCM4350) must not drag wl in.
+! installs_driver_for 14e4:43a3 ||
+  fail "a brcmfmac Broadcom id does not install broadcom-wl-dkms"
 ! installs_driver_for ||
   fail "a machine with no Broadcom wireless installs nothing"
 pass "non-matching hardware installs no Broadcom driver"
