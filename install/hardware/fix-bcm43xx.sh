@@ -7,5 +7,5 @@ pci_info=$(lspci -nn)
 
 if echo "$pci_info" | grep -qE "14e4:(43a0|4331|4328|4329|432a)"; then
   echo "Broadcom BCM4360 / BCM4331 / BCM4321 detected"
-  omarchy-pkg-add broadcom-wl-dkms linux-headers
+  omarchy-pkg-add broadcom-wl-dkms
 fi
