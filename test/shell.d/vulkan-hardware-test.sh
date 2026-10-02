@@ -69,15 +69,16 @@ result=$(installed_packages "$gcn")
   fail "vulkan-radeon is still installed for an amdgpu-bound GPU (got: $result)"
 pass "AMD GPUs on the amdgpu driver still get vulkan-radeon"
 
-# A GPU with no bound driver at all is not a working Vulkan target either.
+# A GPU with no bound driver (an installer booted with nomodeset) says nothing
+# about the installed system, so it keeps vulkan-radeon as before.
 unbound="$test_tmp/pci-unbound"
 mkdir -p "$unbound/0000:01:00.0"
 echo "0x1002" >"$unbound/0000:01:00.0/vendor"
 echo "0x030000" >"$unbound/0000:01:00.0/class"
 result=$(installed_packages "$unbound")
-[[ $result != *vulkan-radeon* ]] ||
-  fail "vulkan-radeon is skipped when no driver is bound to the AMD GPU (got: $result)"
-pass "an AMD GPU with no bound driver does not get vulkan-radeon"
+[[ $result == *vulkan-radeon* ]] ||
+  fail "vulkan-radeon is still installed when no driver is bound to the AMD GPU (got: $result)"
+pass "an AMD GPU with no bound driver still gets vulkan-radeon"
 
 # The AMD guard must not touch the other vendors' drivers.
 result=$(STUB_GPU_VENDOR="Intel Corporation" installed_packages "$pre_gcn")
